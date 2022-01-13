@@ -7,8 +7,13 @@ public class MyMain {
     //      int x = "apple".compareTo("banana"); // x is negative
     //      int y = "banana".compareTo("apple"); // y is positive
     public static String findLastWord(String[] arr) {
-        // YOUR CODE HERE
-        return "";
+        String w = arr[0];
+        for (int i = 0; i < arr.length; i++){
+            if (arr[i].compareTo(w) > 0){
+                w = arr[i];
+            }
+        }
+        return w;
     }
 
     // Given a 2D array, return an 1D array of the last word
@@ -16,8 +21,13 @@ public class MyMain {
     // You can assume that the matrix will not be empty
     // Hint: use the previous method to help yourself!
     public static String[] findLastWord2D(String[][] mat) {
-        // YOUR CODE HERE
-        return null;
+        String x = "";
+        String [] arr1 = new String[mat.length];
+        for (int row = 0; row < mat.length; row++){
+            x = findLastWord(mat[row]);
+            arr1[row] = x;
+        }
+        return arr1;
     }
 
     // Given a 2D array and some column index col
@@ -30,8 +40,17 @@ public class MyMain {
     // Hint: remember how the indexOf() method works?
     // alternatively, consider the contains() method
     public static int appleCounter(String[][] mat, int col) {
-        // YOUR CODE HERE
-        return -1;
+        int w = 0;
+        String [] arr1 = new String[mat.length];
+        for (int row = 0; row < mat.length; row++){
+            arr1[row] = mat[row][col];
+        }
+        for (int i = 0; i < arr1.length; i++){
+            if (arr1[i].contains("apple") == true){
+                w ++;
+            }
+        }
+        return w;
     }
 
     // Given a 2D array, return the column number corresponding
@@ -41,8 +60,17 @@ public class MyMain {
     // Hint: use your previous method!
     // Hint 2: you might need to loop through the columns!
     public static int findMostAppleColumn(String[][] mat) {
-        // YOUR CODE HERE
-        return -1;
+        int w = 0;
+        int col1 = 0;
+        for (int col = 0; col < mat[0].length; col++){
+            int x = appleCounter(mat,col);
+            if (x>w){
+                w = x;
+                col1 = col;
+            }
+        }
+
+        return col1;
     }
 
 
@@ -70,8 +98,26 @@ public class MyMain {
     //       from top to bottom
 
     public static int[][] pascal(int height) {
-        // YOUR CODE HERE
-        return null;
+        int [][] mat = new int[height][height];
+        for (int row = 0; row < mat.length; row++){
+            mat[row][0] = 1;
+        }
+        for (int row = 0; row < mat.length; row++){
+            mat[row][row] = 1;
+        }
+        for (int row = 1; row < mat.length; row++){
+            for (int col = 1; col < mat[0].length; col++){
+                if (mat[row][col]!=1) {
+                    mat[row][col] = mat[row - 1][col - 1] + mat[row - 1][col];
+                }
+                if (mat[row][col]==1) {
+                    break;
+                }
+
+            }
+        }
+
+        return mat;
     }
 
 
@@ -107,7 +153,53 @@ public class MyMain {
     // * do you see any pattern for the row and col indexes for a diagonal?
     // * can you use a for loop that goes through that pattern?
     public static boolean isMagic(int[][] mat) {
-        // YOUR CODE HERE
+       int w = 0;
+       int j = 0;
+        for (int i = 0; i < mat[0].length; i++) {
+            j += mat[0][i];
+        }
+
+        for (int row = 0; row < mat.length; row++) {
+            for (int i = 0; i < mat[0].length; i++) {
+                w += mat[row][i];
+                }
+            if (w != j){
+                break;
+            }
+            if (w == j){
+                w = 0;
+            }
+        }
+        for (int row = 0; row < mat.length; row++) {
+            for (int i = 0; i < mat[0].length; i++) {
+                w += mat[i][row];
+                }
+            if (w != j){
+                break;
+            }
+            if (w == j){
+                w = 0;
+            }
+        }
+        for (int row = 0; row < mat.length; row++) {
+            w += mat[row][row];
+        }
+        if (w != j){
+            return false;
+        }
+        else if (w == j){
+            w = 0;
+        }
+
+        for (int row = 0; row < mat.length; row++) {
+            w += mat[row][mat[0].length - row -1];
+        }
+        if (w != j){
+            return false;
+        }
+        else if (w == j){
+            return true;
+        }
         return false;
     }
 
